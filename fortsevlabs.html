@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FortSev Labs — Mobile App Studio</title>
+<meta name="description" content="FortSev Labs es un estudio independiente de desarrollo de aplicaciones móviles. Creamos productos digitales con propósito.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --black:   #0C0C0F;
+  --surface: #141418;
+  --surface2:#1E1E25;
+  --border:  #2A2A35;
+  --blue:    #2563EB;
+  --blue-dim:#1E40AF;
+  --white:   #F2F2F6;
+  --muted:   #6B6B80;
+  --display: 'Space Grotesk', sans-serif;
+  --body:    'Inter', sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--black);
+  color: var(--white);
+  font-family: var(--body);
+  font-size: 16px;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 48px;
+  background: rgba(12,12,15,0.88);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+}
+
+.nav-brand {
+  font-family: var(--display);
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+  color: var(--white);
+  text-decoration: none;
+}
+
+.nav-brand span { color: var(--blue); }
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 36px;
+  list-style: none;
+}
+
+.nav-links a {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  transition: color .2s;
+}
+
+.nav-links a:hover { color: var(--white); }
+
+.nav-cta {
+  background: var(--blue);
+  color: #fff !important;
+  padding: 9px 20px;
+  border-radius: 8px;
+  font-weight: 600 !important;
+  transition: background .2s !important;
+}
+
+.nav-cta:hover { background: var(--blue-dim) !important; }
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 140px 48px 100px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* dot grid */
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(59,130,246,0.18) 1px, transparent 1px);
+  background-size: 40px 40px;
+  mask-image: radial-gradient(ellipse 80% 80% at 70% 40%, black 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--body);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--blue);
+  margin-bottom: 28px;
+}
+
+.hero-eyebrow::before {
+  content: '';
+  width: 24px;
+  height: 1px;
+  background: var(--blue);
+}
+
+.hero h1 {
+  font-family: var(--display);
+  font-size: clamp(44px, 7vw, 88px);
+  font-weight: 700;
+  letter-spacing: -3px;
+  line-height: 1.0;
+  max-width: 780px;
+  margin-bottom: 28px;
+  position: relative;
+}
+
+.hero h1 em {
+  font-style: normal;
+  color: var(--blue);
+}
+
+.hero-sub {
+  font-size: clamp(15px, 2vw, 18px);
+  color: var(--muted);
+  max-width: 480px;
+  line-height: 1.8;
+  margin-bottom: 48px;
+  position: relative;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  position: relative;
+}
+
+.btn-primary {
+  background: var(--blue);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 14px 28px;
+  font-family: var(--body);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  transition: background .2s, transform .1s;
+}
+
+.btn-primary:hover { background: var(--blue-dim); transform: translateY(-1px); }
+
+.btn-ghost {
+  background: transparent;
+  color: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 28px;
+  font-family: var(--body);
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  transition: border-color .2s;
+}
+
+.btn-ghost:hover { border-color: var(--muted); }
+
+/* ── TICKER ── */
+.ticker {
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 16px 0;
+  overflow: hidden;
+  background: var(--surface);
+}
+
+.ticker-inner {
+  display: flex;
+  gap: 64px;
+  animation: ticker 20s linear infinite;
+  white-space: nowrap;
+}
+
+.ticker-inner span {
+  font-family: var(--display);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--muted);
+  flex-shrink: 0;
+}
+
+.ticker-inner span b { color: var(--blue); font-weight: 600; }
+
+@keyframes ticker {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* ── SECTIONS ── */
+section { padding: 100px 48px; }
+
+.section-label {
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--blue);
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.section-title {
+  font-family: var(--display);
+  font-size: clamp(28px, 4vw, 46px);
+  font-weight: 700;
+  letter-spacing: -1.5px;
+  line-height: 1.1;
+  margin-bottom: 16px;
+  max-width: 600px;
+}
+
+.section-sub {
+  font-size: 16px;
+  color: var(--muted);
+  max-width: 520px;
+  line-height: 1.8;
+  margin-bottom: 64px;
+}
+
+/* ── ABOUT ── */
+.about-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+
+.about-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+}
+
+.stat-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 32px;
+}
+
+.stat-box:first-child { border-radius: 12px 0 0 0; }
+.stat-box:nth-child(2) { border-radius: 0 12px 0 0; }
+.stat-box:nth-child(3) { border-radius: 0 0 0 12px; }
+.stat-box:last-child { border-radius: 0 0 12px 0; }
+
+.stat-num {
+  font-family: var(--display);
+  font-size: 42px;
+  font-weight: 700;
+  letter-spacing: -2px;
+  color: var(--blue);
+  line-height: 1;
+  margin-bottom: 6px;
+}
+
+.stat-desc {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+/* ── APPS ── */
+.apps { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+
+.apps-inner { max-width: 1100px; margin: 0 auto; }
+
+.app-card {
+  background: var(--black);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 40px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 32px;
+  align-items: center;
+  transition: border-color .2s;
+}
+
+.app-card:hover { border-color: rgba(59,130,246,0.4); }
+
+.app-icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, #00E676, #00897B);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.app-icon svg { width: 40px; height: 40px; }
+
+.app-name {
+  font-family: var(--display);
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  margin-bottom: 6px;
+}
+
+.app-desc { font-size: 15px; color: var(--muted); line-height: 1.6; max-width: 480px; }
+
+.app-tags { display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap; }
+
+.tag {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 12px;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.app-badge {
+  background: rgba(59,130,246,0.1);
+  border: 1px solid rgba(59,130,246,0.3);
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--blue);
+  white-space: nowrap;
+}
+
+.coming-soon-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.coming-card {
+  background: var(--surface2);
+  border: 1px dashed var(--border);
+  border-radius: 12px;
+  padding: 28px;
+  text-align: center;
+}
+
+.coming-icon { font-size: 28px; margin-bottom: 12px; }
+.coming-title { font-family: var(--display); font-size: 15px; font-weight: 600; margin-bottom: 6px; }
+.coming-desc { font-size: 13px; color: var(--muted); line-height: 1.5; }
+
+/* ── VALUES ── */
+.values-inner { max-width: 1100px; margin: 0 auto; }
+
+.values-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.value-item {
+  background: var(--black);
+  padding: 36px 32px;
+}
+
+.value-num {
+  font-family: var(--display);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  color: var(--blue);
+  margin-bottom: 20px;
+}
+
+.value-title {
+  font-family: var(--display);
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  letter-spacing: -0.3px;
+}
+
+.value-desc { font-size: 14px; color: var(--muted); line-height: 1.7; }
+
+/* ── CONTACT ── */
+.contact { background: var(--surface); border-top: 1px solid var(--border); }
+.contact-inner { max-width: 600px; margin: 0 auto; text-align: center; }
+
+.contact-inner .section-title { max-width: 100%; margin: 0 auto 16px; }
+.contact-inner .section-sub { max-width: 100%; margin: 0 auto 40px; }
+
+.contact-email {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--black);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px 24px;
+  font-family: var(--display);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--white);
+  text-decoration: none;
+  transition: border-color .2s;
+}
+
+.contact-email:hover { border-color: var(--blue); }
+.contact-email span { color: var(--blue); }
+
+/* ── FOOTER ── */
+footer {
+  padding: 32px 48px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.footer-brand {
+  font-family: var(--display);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--white);
+}
+
+.footer-brand span { color: var(--blue); }
+
+.footer-links {
+  display: flex;
+  gap: 24px;
+  list-style: none;
+}
+
+.footer-links a {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 13px;
+  transition: color .2s;
+}
+
+.footer-links a:hover { color: var(--white); }
+
+.footer-copy { font-size: 13px; color: var(--muted); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  nav { padding: 16px 20px; }
+  .nav-links { display: none; }
+  .hero { padding: 120px 20px 80px; }
+  section { padding: 72px 20px; }
+  .about-inner { grid-template-columns: 1fr; gap: 48px; }
+  .about-stats { grid-template-columns: 1fr 1fr; }
+  .values-grid { grid-template-columns: 1fr; }
+  .coming-soon-grid { grid-template-columns: 1fr; }
+  .app-card { grid-template-columns: 1fr; }
+  footer { flex-direction: column; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-brand">Fort<span>Sev</span> Labs</a>
+  <ul class="nav-links">
+    <li><a href="#about">Estudio</a></li>
+    <li><a href="#apps">Productos</a></li>
+    <li><a href="#values">Filosofía</a></li>
+    <li><a href="#contact" class="nav-cta">Contacto</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-eyebrow">Mobile App Studio</div>
+  <h1>Construimos apps<br>que la gente <em>usa</em>.</h1>
+  <p class="hero-sub">FortSev Labs es un estudio independiente de desarrollo de aplicaciones móviles. Creamos productos digitales con propósito, enfocados en resolver problemas reales.</p>
+  <div class="hero-actions">
+    <a href="#apps" class="btn-primary">Ver nuestros productos</a>
+    <a href="#contact" class="btn-ghost">Contactar</a>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-inner">
+    <span>iOS <b>·</b></span>
+    <span>Android <b>·</b></span>
+    <span>React Native <b>·</b></span>
+    <span>Diseño de producto <b>·</b></span>
+    <span>UX/UI <b>·</b></span>
+    <span>Backend <b>·</b></span>
+    <span>Pagos integrados <b>·</b></span>
+    <span>Push Notifications <b>·</b></span>
+    <span>iOS <b>·</b></span>
+    <span>Android <b>·</b></span>
+    <span>React Native <b>·</b></span>
+    <span>Diseño de producto <b>·</b></span>
+    <span>UX/UI <b>·</b></span>
+    <span>Backend <b>·</b></span>
+    <span>Pagos integrados <b>·</b></span>
+    <span>Push Notifications <b>·</b></span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-inner">
+    <div>
+      <div class="section-label">El estudio</div>
+      <h2 class="section-title">Pequeño equipo.<br>Productos reales.</h2>
+      <p class="section-sub">FortSev Labs nació con una idea simple: que las mejores aplicaciones no vienen de grandes corporaciones, sino de equipos pequeños que entienden de verdad los problemas que resuelven.<br><br>Construimos apps móviles de principio a fin — desde la idea hasta las tiendas — con foco en la experiencia de usuario, la tecnología adecuada y el impacto real.</p>
+      <a href="#apps" class="btn-primary">Nuestros productos →</a>
+    </div>
+    <div class="about-stats">
+      <div class="stat-box">
+        <div class="stat-num">1</div>
+        <div class="stat-desc">App publicada en producción</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">2</div>
+        <div class="stat-desc">Plataformas iOS y Android</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">100%</div>
+        <div class="stat-desc">Independiente y bootstrapped</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">∞</div>
+        <div class="stat-desc">Productos en desarrollo</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- APPS -->
+<section class="apps" id="apps">
+  <div class="apps-inner">
+    <div class="section-label">Productos</div>
+    <h2 class="section-title">Lo que hemos construido.</h2>
+    <p class="section-sub">Cada producto nace de un problema concreto. Empezamos con uno, pero no será el último.</p>
+
+    <!-- MATCHEZ -->
+    <div class="app-card" style="margin-bottom: 48px;">
+      <div class="app-icon">
+        <svg viewBox="0 0 100 100" fill="none">
+          <circle cx="50" cy="50" r="48" fill="#00E676"/>
+          <circle cx="50" cy="50" r="30" fill="#0C0C0F"/>
+          <path d="M32 28 Q50 50 32 72" stroke="#00E676" stroke-width="5" fill="none" stroke-linecap="round"/>
+          <path d="M68 28 Q50 50 68 72" stroke="#00E676" stroke-width="5" fill="none" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div>
+        <div class="app-name">Matchez</div>
+        <div class="app-desc">La app que conecta jugadores de pádel, tenis y frontón. Encuentra partidas cerca de ti, únete a clubes, reserva pistas y compite en rankings por categoría.</div>
+        <div class="app-tags">
+          <span class="tag">Deportes</span>
+          <span class="tag">Social</span>
+          <span class="tag">Marketplace</span>
+          <span class="tag">iOS & Android</span>
+        </div>
+      </div>
+      <a href="https://matchez.es" target="_blank" class="app-badge">Ver app →</a>
+    </div>
+
+    <!-- COMING SOON -->
+    <div class="section-label" style="margin-bottom: 20px;">Próximamente</div>
+    <div class="coming-soon-grid">
+      <div class="coming-card">
+        <div class="coming-icon">📱</div>
+        <div class="coming-title">Proyecto 02</div>
+        <div class="coming-desc">En desarrollo. Próximamente más información.</div>
+      </div>
+      <div class="coming-card">
+        <div class="coming-icon">🚀</div>
+        <div class="coming-title">Proyecto 03</div>
+        <div class="coming-desc">En investigación. Próximamente más información.</div>
+      </div>
+      <div class="coming-card">
+        <div class="coming-icon">💡</div>
+        <div class="coming-title">¿Y el siguiente?</div>
+        <div class="coming-desc">Siempre hay una idea nueva. Síguenos para enterarte primero.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VALUES -->
+<section id="values">
+  <div class="values-inner">
+    <div class="section-label">Filosofía</div>
+    <h2 class="section-title" style="margin-bottom: 48px;">Cómo trabajamos.</h2>
+    <div class="values-grid">
+      <div class="value-item">
+        <div class="value-num">01</div>
+        <div class="value-title">Problema primero</div>
+        <div class="value-desc">No construimos tecnología por construirla. Cada app nace de un problema real que vale la pena resolver. Si no existe el problema, no existe el producto.</div>
+      </div>
+      <div class="value-item">
+        <div class="value-num">02</div>
+        <div class="value-title">Simple y funcional</div>
+        <div class="value-desc">La mejor interfaz es la que no se nota. Diseñamos para que el usuario haga lo que vino a hacer, sin fricciones, sin distracciones, sin tutoriales.</div>
+      </div>
+      <div class="value-item">
+        <div class="value-num">03</div>
+        <div class="value-title">Construir y aprender</div>
+        <div class="value-desc">Publicamos, medimos y mejoramos. No esperamos a la perfección. Los mejores productos se construyen con los usuarios, no antes de tenerlos.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="contact-inner">
+    <div class="section-label">Contacto</div>
+    <h2 class="section-title">¿Tienes una idea?<br>Hablemos.</h2>
+    <p class="section-sub">Si quieres colaborar, tienes una pregunta sobre nuestros productos o simplemente quieres saludar, escríbenos.</p>
+    <a href="mailto:fortsevlabs@gmail.com" class="contact-email">
+      <span>✉</span> fortsevlabs@gmail.com
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">Fort<span>Sev</span> Labs</div>
+  <ul class="footer-links">
+    <li><a href="https://matchez.es" target="_blank">Matchez</a></li>
+    <li><a href="mailto:fortsevlabs@gmail.com">Contacto</a></li>
+  </ul>
+  <p class="footer-copy">© 2026 FortSev Labs. Todos los derechos reservados.</p>
+</footer>
+
+</body>
+</html>
